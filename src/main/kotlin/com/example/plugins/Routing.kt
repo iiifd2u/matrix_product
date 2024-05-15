@@ -1,26 +1,51 @@
 package com.example.plugins
 
-import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.resources.*
-import io.ktor.server.resources.Resources
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.http.*
+import io.ktor.serialization.gson.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.serialization.Serializable
+import io.ktor.server.http.content.*
+
+data class MatrixString(val value: String)
 
 fun Application.configureRouting() {
-    install(Resources)
+    install(ContentNegotiation) {
+        gson()
+    }
     routing {
-        get("/") {
-            call.respondText("Hello World!")
-        }
-        get<Articles> { article ->
-            // Get all articles ...
-            call.respond("List of articles sorted starting from ${article.sort}")
+        staticResources(remotePath = "/", basePackage = "static", index="index.html")
+
+        post("/calculate"){
+            val stringFromJson = call.receive<MatrixString>().value
+
+            if (stringFromJson.length<=5){
+                val err = "Введите обе матрицы!"
+                call.respondText(err, contentType = ContentType.Text.Plain, status = HttpStatusCode(418, "math error"))
+            } else{
+                val matrixPair = stringFromJson.split("|")
+                val matrixLeft = matrixPair[0]
+                val matrixRight = matrixPair[1]
+                if  (matrixLeft.length<3 || matrixRight.length<3){
+                    val err = "Одна из матриц пуста"
+                    call.respondText(err, contentType = ContentType.Text.Plain, status = HttpStatusCode(418, "math error"))
+                } else{
+                    val m1:Matrix = parseStringToMatrix(matrixLeft)!!
+                    val m2:Matrix = parseStringToMatrix(matrixRight)!!
+
+                    val matProd = matrixProduct(m1, m2)
+                    if (matProd.isNullOrEmpty()){
+                        val err = "Число столбцов первой матрицы должно равняться числу строк второй!"
+                        call.respondText(err, contentType = ContentType.Text.Plain, status = HttpStatusCode(418, "math error"))
+                    } else{
+                        call.respond<Matrix>(matProd)
+                    }
+                }
+            }
         }
     }
 }
 
-@Serializable
-@Resource("/articles")
-class Articles(val sort: String? = "new")
+
