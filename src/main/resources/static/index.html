@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/icons/mortarboard.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>MatProd</title>
+</head>
+<body>
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="mt-2 " style=" min-width:300px">
+            <h2 style="width: 600px;">Матричное умножение</h2>
+            <div class="form-floating mt-2">
+                <textarea class="form-control" id="floatingTextarea1" style="min-height: 120px; text-align: center;">
+                </textarea>
+                <label for="floatingTextarea1">Матрица 1</label>
+            </div>
+            <div class="form-floating mt-2">
+                <textarea class="form-control" id="floatingTextarea2" style="min-height: 120px; text-align: center;"></textarea>
+                <label for="floatingTextarea2">Матрица 2</label>
+            </div>
+
+            <div class="mt-2 d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-success" id="btn_calcutale">Рассчёт</button>
+                <button type="button" class="btn btn-outline-danger" id="btn_clear_fields">Очистить всё</button>
+            </div>
+
+            
+            <div class="mt-5">
+                <h3>Результат:</h3>
+                <div class="form-floating mt-2">
+                    <textarea class="form-control" id="floatingTextarea3" style="min-height: 120px; text-align: center;"></textarea>
+                    <!--        <label for="floatingTextarea3">Матрица 1</label>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="app.js"></script>
+
+</div>
+
+</body>
+</html>

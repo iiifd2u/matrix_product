@@ -1,16 +1,15 @@
-package com.example.com.example
+package com.example
+import com.example.plugins.*
 
-import io.ktor.server.routing.*
 import io.ktor.server.engine.*
-import io.ktor.server.http.content.*
 import io.ktor.server.netty.*
-import java.io.File
+
+
 
 fun main() {
-    embeddedServer(Netty, port = 8080) {
-        routing {
-            staticFiles("/", File("static"), index="index.html")
-        }
+    embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
+        configureRouting()
 
     }.start(wait = true)
+
 }
