@@ -73,7 +73,7 @@ btn_calc.addEventListener("click", async (e)=>{
             
         } else{
             const res = await req.text();
-            alert(`Ошибка в рассчёте: ${res}`);
+            alert(`${res}`);
         }
         
     }catch(error){

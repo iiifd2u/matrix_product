@@ -7,12 +7,16 @@ val rowPattern = Regex("^\\[\\s*(\\-*\\d+\\.*\\d*\\s*)+\\]$")
 typealias Matrix = List<List<Double>>
 
 
-fun parseStringToMatrix(inputString: String):Matrix?{
-    // Переводит строку в матрицу, делает проверку по равно длине строк и по валидности данных в строке
+fun parseStringToMatrix(inputString: String):Pair<Matrix?, String>{
+    // Переводит строку в матрицу, возвращает пару Матрица-ошибка
     val res = mutableListOf<List<Double>>()
     inputString.split("\n").forEach {
-        val row = it.replace("\\s+".toRegex(), " ").trim()
-        if (!rowPattern.find(row)?.value.isNullOrBlank()){
+        val row = it.replace("\\s+".toRegex(), " ").trim() //Убираем все лишние проблеы
+        if (row == "[]"){
+            return Pair(null, "Ошибка: Матрица содержит пустые строки")
+        }
+        val req = rowPattern.find(row)?.value
+        if (!req.isNullOrBlank()){
 
             val rowNumeric = row
                 .substring(1, row.length-1)
@@ -23,14 +27,13 @@ fun parseStringToMatrix(inputString: String):Matrix?{
                 }
             res.add(rowNumeric)
         } else{
-            println("Ошибка при вводе матрицы")
-            return null
+            return Pair(null, "Ошибка: Матрица содержит нечисловые данные")
         }
     }
     if (!res.all {it.count() == res[0].count()}){
-        return null
+        return Pair(null, "Ошибка: Введённые строки разной длины")
     }
-    return res
+    return Pair(res, "")
 }
 
 
