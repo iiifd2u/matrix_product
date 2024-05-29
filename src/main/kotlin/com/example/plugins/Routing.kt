@@ -36,14 +36,14 @@ fun Application.configureRouting() {
                         status = HttpStatusCode(418, "math error")
                     )
                 } else {
-                    val matrixLeftPair  = parseStringToMatrix(matrixLeft)
-                    val matrixRightPair  = parseStringToMatrix(matrixRight)
+                    val matrixLeftPair = parseStringToMatrix(matrixLeft)
+                    val matrixRightPair = parseStringToMatrix(matrixRight)
                     val m1 = matrixLeftPair.first
                     val m2 = matrixRightPair.first
                     val errorL = matrixLeftPair.second
                     val errorR = matrixRightPair.second
 
-                    if (errorL.isNotEmpty()){
+                    if (errorL.isNotEmpty()) {
                         call.respondText(
                             errorL,
                             contentType = ContentType.Text.Plain,
@@ -51,7 +51,7 @@ fun Application.configureRouting() {
                         )
                     }
 
-                    if (errorR.isNotEmpty()){
+                    if (errorR.isNotEmpty()) {
                         call.respondText(
                             errorR,
                             contentType = ContentType.Text.Plain,
@@ -59,7 +59,7 @@ fun Application.configureRouting() {
                         )
                     }
 
-                    if (m1.isNullOrEmpty() || m2.isNullOrEmpty()){
+                    if (m1.isNullOrEmpty() || m2.isNullOrEmpty()) {
                         val err = "Одна из матриц не заполнена"
                         call.respondText(
                             err,
