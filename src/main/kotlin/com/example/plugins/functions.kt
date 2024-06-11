@@ -6,14 +6,20 @@ val rowPattern = Regex("^\\[\\s*(\\-*\\d+\\.*\\d*\\s*)+\\]$")
 
 typealias Matrix = List<List<Double>>
 
+sealed interface Result {
+    class Success(val matrix: Matrix) : Result
+    data object InvalidDifferentStrings : Result
+    data object InvalidNotNumber : Result
+    data object InvalidEmptyString : Result
+}
 
-fun parseStringToMatrix(inputString: String): Pair<Matrix?, String> {
+fun parseStringToMatrix(inputString: String): Result {
     // Переводит строку в матрицу, возвращает пару Матрица-ошибка
     val res = mutableListOf<List<Double>>()
     inputString.split("\n").forEach {
         val row = it.replace("\\s+".toRegex(), " ").trim() //Убираем все лишние проблеы
         if (row == "[]") {
-            return Pair(null, "Ошибка: Матрица содержит пустые строки")
+            return Result.InvalidEmptyString
         }
         val req = rowPattern.find(row)?.value
         if (!req.isNullOrBlank()) {
@@ -27,13 +33,13 @@ fun parseStringToMatrix(inputString: String): Pair<Matrix?, String> {
                 }
             res.add(rowNumeric)
         } else {
-            return Pair(null, "Ошибка: Матрица содержит нечисловые данные")
+            return Result.InvalidNotNumber
         }
     }
     if (!res.all { it.count() == res[0].count() }) {
-        return Pair(null, "Ошибка: Введённые строки разной длины")
+        return Result.InvalidDifferentStrings
     }
-    return Pair(res, "")
+    return Result.Success(res)
 }
 
 
