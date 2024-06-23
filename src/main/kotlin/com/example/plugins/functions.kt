@@ -6,6 +6,7 @@ val rowPattern = Regex("^\\[\\s*(\\-*\\d+\\.*\\d*\\s*)+\\]$")
 
 typealias Matrix = List<List<Double>>
 
+// Интерфейс ответа
 sealed interface Result {
     class Success(val matrix: Matrix) : Result
     data object InvalidDifferentStrings : Result
@@ -44,6 +45,7 @@ fun parseStringToMatrix(inputString: String): Result {
 
 
 fun matrixProduct(m1: Matrix, m2: Matrix): Matrix? {
+    // считает произведение матриц
     val col1 = m1[0].count()
     val row2 = m2.count()
     if (col1 != row2) return null
