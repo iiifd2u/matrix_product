@@ -36,72 +36,60 @@ fun Application.configureRouting() {
                         status = HttpStatusCode(418, "math error")
                     )
                 } else {
-//                    val matrixLeftPair = parseStringToMatrix(matrixLeft)
-//                    val matrixRightPair = parseStringToMatrix(matrixRight)
-//                    val m1 = matrixLeftPair.first
-//                    val m2 = matrixRightPair.first
-//                    val errorL = matrixLeftPair.second
-//                    val errorR = matrixRightPair.second
 
-//                    val resLeft = parseStringToMatrix(matrixLeft)
-//                    val resRight = parseStringToMatrix(matrixRight)
-                    var m1:Matrix? = null
-                    var m2:Matrix? = null
+                    var m1: Matrix? = null
+                    var m2: Matrix? = null
                     when (
                         val resLeft = parseStringToMatrix(matrixLeft)
-                    ){
+                    ) {
                         is Result.Success -> {
                             m1 = resLeft.matrix
                         }
-                        Result.InvalidNotNumber->call.respondText(
+
+                        Result.InvalidNotNumber -> call.respondText(
                             "В левой матрице должны быть только числа!",
                             contentType = ContentType.Text.Plain,
-                            status = HttpStatusCode(418, "schema error"))
-                        Result.InvalidEmptyString->call.respondText(
+                            status = HttpStatusCode(418, "schema error")
+                        )
+
+                        Result.InvalidEmptyString -> call.respondText(
                             "В левой матрице не должно быть пустых строк!",
                             contentType = ContentType.Text.Plain,
-                            status = HttpStatusCode(418, "schema error"))
-                        Result.InvalidDifferentStrings->call.respondText(
+                            status = HttpStatusCode(418, "schema error")
+                        )
+
+                        Result.InvalidDifferentStrings -> call.respondText(
                             "В левой матрице не должно быть строк разной длины!",
                             contentType = ContentType.Text.Plain,
-                            status = HttpStatusCode(418, "schema error"))
+                            status = HttpStatusCode(418, "schema error")
+                        )
                     }
 
                     when (
-                        val resRight= parseStringToMatrix(matrixRight)
-                    ){
-                        is Result.Success ->{
+                        val resRight = parseStringToMatrix(matrixRight)
+                    ) {
+                        is Result.Success -> {
                             m2 = resRight.matrix
                         }
-                        Result.InvalidNotNumber->call.respondText(
+
+                        Result.InvalidNotNumber -> call.respondText(
                             "В правой матрице должны быть только числа!",
                             contentType = ContentType.Text.Plain,
-                            status = HttpStatusCode(418, "schema error"))
-                        Result.InvalidEmptyString->call.respondText(
+                            status = HttpStatusCode(418, "schema error")
+                        )
+
+                        Result.InvalidEmptyString -> call.respondText(
                             "В правой матрице не должно быть пустых строк!",
                             contentType = ContentType.Text.Plain,
-                            status = HttpStatusCode(418, "schema error"))
-                        Result.InvalidDifferentStrings->call.respondText(
+                            status = HttpStatusCode(418, "schema error")
+                        )
+
+                        Result.InvalidDifferentStrings -> call.respondText(
                             "В правой матрице не должно быть строк разной длины!",
                             contentType = ContentType.Text.Plain,
-                            status = HttpStatusCode(418, "schema error"))
+                            status = HttpStatusCode(418, "schema error")
+                        )
                     }
-
-//                    if (errorL.isNotEmpty()) {
-//                        call.respondText(
-//                            errorL,
-//                            contentType = ContentType.Text.Plain,
-//                            status = HttpStatusCode(418, "parse error")
-//                        )
-//                    }
-//
-//                    if (errorR.isNotEmpty()) {
-//                        call.respondText(
-//                            errorR,
-//                            contentType = ContentType.Text.Plain,
-//                            status = HttpStatusCode(418, "parse error")
-//                        )
-//                    }
 
                     if (m1.isNullOrEmpty() || m2.isNullOrEmpty()) {
                         val err = "Одна из матриц не заполнена"
